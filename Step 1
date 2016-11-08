@@ -1,0 +1,8 @@
+import requests
+
+request_dict = {'token': '62bafe297bd758b89b24e494c3906848', 'github':'https://github.com/nashawnch/Code2040.git'}
+endpoint = 'http://challenge.code2040.org/api/register'
+
+request = requests.post(endpoint, request_dict)
+
+print (request.text)
