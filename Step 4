@@ -1,0 +1,24 @@
+import requests
+
+request_dict = {'token': '62bafe297bd758b89b24e494c3906848'}
+receive_endpoint = 'http://challenge.code2040.org/api/prefix'
+return_endpoint = 'http://challenge.code2040.org/api/prefix/validate'
+
+request = requests.post(receive_endpoint, request_dict)
+
+prefix = request.json()["prefix"]
+array_value = request.json()["array"]
+
+def returnArray(a):
+    arr = []
+    for i in a:
+        if prefix != i[:4]:
+            arr.append(i)
+    return arr
+
+array = returnArray(array_value)
+request_dict["array"] = array
+
+request = requests.post(return_endpoint, json=request_dict)
+
+print(request.text)
