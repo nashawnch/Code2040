@@ -1,0 +1,26 @@
+import requests
+from dateutil.parser import parse
+from dateutil.relativedelta import relativedelta
+
+request_dict = {'token': '62bafe297bd758b89b24e494c3906848'}
+receive_endpoint = 'http://challenge.code2040.org/api/dating'
+return_endpoint = 'http://challenge.code2040.org/api/dating/validate'
+
+request = requests.post(receive_endpoint, request_dict)
+
+date = request.json()["datestamp"]
+seconds = request.json()["interval"]
+
+def addSecs(full_date, secs):
+    split = parse(date)
+    rel_delta = relativedelta(seconds=+int(seconds))
+    final_seconds = split + rel_delta
+    final_time = (final_seconds).isoformat().replace('+00:00', 'Z')
+    return final_time
+   
+datestamp = addSecs(date, seconds)
+request_dict['datestamp'] = datestamp
+
+request = requests.post(return_endpoint, json=request_dict)
+
+print(request.text)
