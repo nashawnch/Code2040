@@ -1,0 +1,20 @@
+import requests
+
+request_dict = {'token': '62bafe297bd758b89b24e494c3906848'}
+receive_endpoint = 'http://challenge.code2040.org/api/haystack'
+return_endpoint = 'http://challenge.code2040.org/api/haystack/validate'
+
+request = requests.post(receive_endpoint, request_dict)
+
+needle_value = request.text
+
+def findPosition(a):
+    for i in a:
+        if needle_value == i:
+            return i
+            
+index = findPosition(request.text[1])
+
+request = requests.post(return_endpoint, json=request_dict)
+
+print(request.text)
